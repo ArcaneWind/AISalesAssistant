@@ -2,7 +2,7 @@
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 pydantic>=2.8.0  # 新架构需要更高版本
-pydantic-settings==2.1.0
+pydantic-settings>=2.1.0
 
 # 数据库
 sqlalchemy==2.0.23
@@ -22,6 +22,26 @@ sentence-transformers==2.2.2  # 回退到稳定版本，避免Keras 3问题
 numpy>=1.24.0,<2.0.0  # 兼容Python 3.12
 scikit-learn>=1.3.0,<1.4.0  # 放宽版本约束
 huggingface_hub>=0.15.0,<0.25.0  # 扩大版本范围解决依赖冲突
+
+# 中文优化RAG依赖
+FlagEmbedding>=1.2.0  # BGE中文向量化模型
+transformers>=4.35.0
+torch>=2.0.0
+
+# 文档处理
+PyPDF2>=3.0.0
+pdfplumber>=0.9.0
+Pillow>=9.5.0
+
+# 中文OCR
+paddleocr>=2.7.0
+paddlepaddle>=2.5.0
+
+# 检索和文本处理
+rank-bm25>=0.2.2
+jieba>=0.42.1
+regex>=2023.8.8
+tqdm>=4.65.0
 
 # 新架构核心依赖
 langgraph>=0.0.26

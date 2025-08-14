@@ -138,7 +138,7 @@ async def profile_service(profile_cache, profile_repository):
 
 @pytest_asyncio.fixture
 def sample_user_profile():
-    """示例用户画像数据 - 同步fixture"""
+    """示例用户画像数据 """
     return UserProfile(
         user_id="test_user_003",
         session_id="test_session_003",

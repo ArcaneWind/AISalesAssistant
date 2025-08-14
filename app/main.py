@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
+from sqlalchemy.exc import SQLAlchemyError
 import uvicorn
 
 from app.core.config import settings
@@ -8,6 +10,19 @@ from app.core.redis import redis_manager
 from app.core.qdrant import qdrant_manager
 from app.core.database import init_database, close_database
 from app.api.health import router as health_router
+from app.api.profiles import router as profiles_router
+from app.api.courses import router as courses_router
+from app.api.coupons import router as coupons_router
+from app.api.orders import router as orders_router
+from app.api.agent import router as agent_router
+from app.api.exceptions import (
+    validation_exception_handler,
+    http_exception_handler,
+    database_exception_handler,
+    general_exception_handler,
+    business_exception_handler,
+    BusinessException
+)
 
 # 简化日志配置
 import logging
@@ -72,6 +87,17 @@ app.add_middleware(
 
 # 注册路由
 app.include_router(health_router)
+app.include_router(profiles_router)
+app.include_router(courses_router)
+app.include_router(coupons_router)
+app.include_router(orders_router)
+app.include_router(agent_router)
+
+# 注册异常处理器
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(SQLAlchemyError, database_exception_handler)
+app.add_exception_handler(BusinessException, business_exception_handler)
+app.add_exception_handler(Exception, general_exception_handler)
 
 
 @app.get("/")
